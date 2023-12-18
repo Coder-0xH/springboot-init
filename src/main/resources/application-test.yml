@@ -1,0 +1,31 @@
+server:
+  address: 0.0.0.0
+  port: 8108
+  servlet:
+    context-path: /api
+    # cookie 30 天过期
+    session:
+      cookie:
+        max-age: 2592000
+spring:
+  # 数据库配置
+  # todo 需替换配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://1.14.61.253:3306/my_db
+    username: root
+    password: Lfhao5340.0
+  # Redis 配置
+  # todo 需替换配置
+  redis:
+    database: 0
+    host: 1.14.61.253
+    port: 6379
+    timeout: 5000
+    password:
+  # Elasticsearch 配置
+  # todo 需替换配置
+  elasticsearch:
+    uris: http://1.14.61.253:9200
+    username: root
+    password: 123456
