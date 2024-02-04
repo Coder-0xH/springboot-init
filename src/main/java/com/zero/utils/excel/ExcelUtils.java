@@ -33,7 +33,8 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- *  Excel导入导出工具类
+ * Excel导入导出工具类
+ *
  * @author sonata
  */
 @Slf4j
@@ -89,6 +90,7 @@ public class ExcelUtils {
      */
     private static <T> T getBean(Class<T> c, JSONObject obj, Map<Integer, String> uniqueMap) throws Exception {
         T t = c.newInstance();
+        // T t = c.getDeclaredConstructor().newInstance();
         Field[] fields = c.getDeclaredFields();
         List<String> errMsgList = new ArrayList<>();
         boolean hasRowTipsField = false;
@@ -114,7 +116,7 @@ public class ExcelUtils {
                 continue;
             }
             // 设置对应属性值
-            setFieldValue(t,field, obj, uniqueBuilder, errMsgList);
+            setFieldValue(t, field, obj, uniqueBuilder, errMsgList);
         }
         // 数据唯一性校验
         if (uniqueBuilder.length() > 0) {
@@ -228,7 +230,7 @@ public class ExcelUtils {
                 field.set(t, new BigDecimal(val));
             }
         } catch (Exception e) {
-            log.error("ERROR:",e);
+            log.error("ERROR:", e);
         }
     }
 
@@ -262,17 +264,17 @@ public class ExcelUtils {
             }
             array = read(book);
         } catch (IOException e) {
-            log.error("ERROR:",e);
+            log.error("ERROR:", e);
         } finally {
             try {
-                if (book!=null) {
+                if (book != null) {
                     book.close();
                 }
-                if (in!=null) {
+                if (in != null) {
                     in.close();
                 }
             } catch (IOException e) {
-                      log.error("ERROR:",e);
+                log.error("ERROR:", e);
             }
         }
         return array;
@@ -627,7 +629,7 @@ public class ExcelUtils {
                 map.put(fieldName, object);
             }
         } catch (IllegalArgumentException | IllegalAccessException e) {
-                  log.error("ERROR:",e);
+            log.error("ERROR:", e);
         }
         return map;
     }
@@ -655,21 +657,40 @@ public class ExcelUtils {
     }
 
     public static <T, K> void export(HttpServletResponse response, String fileName, List<T> list, Class<K> template) {
-        // list 是否为空
-        boolean lisIsEmpty = list == null || list.isEmpty();
-        // 如果模板数据为空，且导入的数据为空，则导出空文件
-        if (template == null && lisIsEmpty) {
+        // 参数校验
+        if (response == null || fileName == null || fileName.trim().isEmpty()) {
+            // 日志记录错误，或者抛出一个异常
+            log.error("Response or fileName is null or empty.");
+            return;
+        }
+        // 判断是否需要导出空文件
+        boolean listIsEmpty = (list == null || list.isEmpty());
+        if (template == null && listIsEmpty) {
             exportEmpty(response, fileName);
             return;
         }
-        // 如果 list 数据，则导出模板数据
-        if (lisIsEmpty) {
+        // 优化判断逻辑，直接进行操作而不是多次判断listIsEmpty
+        if (listIsEmpty) {
+            // 导出模板数据
             exportTemplate(response, fileName, template);
-            return;
+        } else {
+            // 导出数据
+            try {
+                List<List<Object>> sheetDataList = getSheetData(list);
+                export(response, fileName, sheetDataList);
+            } catch (Exception e) {
+                // 日志记录异常，或者向客户端发送错误响应
+                log.error("Error exporting data", e);
+            }
         }
+//        // 如果 list 数据，则导出模板数据
+//        if (listIsEmpty) {
+//            exportTemplate(response, fileName, template);
+//            return;
+//        }
         // 导出数据
-        List<List<Object>> sheetDataList = getSheetData(list);
-        export(response, fileName, sheetDataList);
+//        List<List<Object>> sheetDataList = getSheetData(list);
+//        export(response, fileName, sheetDataList);
     }
 
     public static void export(HttpServletResponse response, String fileName, List<List<Object>> sheetDataList, Map<Integer, List<String>> selectMap) {
@@ -733,7 +754,7 @@ public class ExcelUtils {
             try {
                 write(response, book, fileName);
             } catch (IOException e) {
-                      log.error("ERROR:",e);
+                log.error("ERROR:", e);
             }
         } else {
             // 本地导出
@@ -744,13 +765,13 @@ public class ExcelUtils {
                 book.write(ops);
                 fos.write(ops.toByteArray());
             } catch (Exception e) {
-                      log.error("ERROR:",e);
+                log.error("ERROR:", e);
             } finally {
-                if (fos!=null) {
+                if (fos != null) {
                     try {
                         fos.close();
                     } catch (IOException e) {
-                              log.error("ERROR:",e);
+                        log.error("ERROR:", e);
                     }
 
                 }
@@ -910,7 +931,7 @@ public class ExcelUtils {
             anchor.setAnchorType(AnchorType.MOVE_AND_RESIZE);
             patriarch.createPicture(anchor, wb.addPicture(outputStream.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG));
         } catch (Exception e) {
-                  log.error("ERROR:",e);
+            log.error("ERROR:", e);
         }
     }
 
@@ -1007,7 +1028,7 @@ public class ExcelUtils {
     }
 
     private static boolean isNumeric(String str) {
-        if (StringUtils.isEmpty(str)){
+        if (StringUtils.isEmpty(str)) {
             return false;
         }
 

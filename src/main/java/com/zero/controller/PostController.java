@@ -19,6 +19,7 @@ import com.zero.model.entity.User;
 import com.zero.model.vo.PostVO;
 import com.zero.service.PostService;
 import com.zero.service.UserService;
+import com.zero.utils.GsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -45,10 +46,6 @@ public class PostController {
     @Resource
     private UserService userService;
 
-    private final static Gson GSON = new Gson();
-
-    // region 增删改查
-
     /**
      * 创建
      *
@@ -65,7 +62,7 @@ public class PostController {
         BeanUtils.copyProperties(postAddRequest, post);
         List<String> tags = postAddRequest.getTags();
         if (tags != null) {
-            post.setTags(GSON.toJson(tags));
+            post.setTags(GsonUtil.toJsonStr(tags));
         }
         postService.validPost(post, true);
         User loginUser = userService.getLoginUser(request);
@@ -119,7 +116,7 @@ public class PostController {
         BeanUtils.copyProperties(postUpdateRequest, post);
         List<String> tags = postUpdateRequest.getTags();
         if (tags != null) {
-            post.setTags(GSON.toJson(tags));
+            post.setTags(GsonUtil.toJsonStr(tags));
         }
         // 参数校验
         postService.validPost(post, false);
@@ -225,7 +222,7 @@ public class PostController {
         BeanUtils.copyProperties(postEditRequest, post);
         List<String> tags = postEditRequest.getTags();
         if (tags != null) {
-            post.setTags(GSON.toJson(tags));
+            post.setTags(GsonUtil.toJsonStr(tags));
         }
         // 参数校验
         postService.validPost(post, false);
