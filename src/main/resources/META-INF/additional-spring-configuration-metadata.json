@@ -29,6 +29,11 @@
       "name": "wx.open.appSecret",
       "type": "java.lang.String",
       "description": "Description for wx.open.appSecret."
+    },
+    {
+      "name": "aliyun.oss.accessKey",
+      "type": "java.lang.String",
+      "description": "Description for aliyun.oss.accessKey."
     }
   ]
 }

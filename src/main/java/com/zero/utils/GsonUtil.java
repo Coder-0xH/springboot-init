@@ -32,8 +32,6 @@ public class GsonUtil implements JsonSerializer<String>, JsonDeserializer<String
      *
      * @param json json字符串
      * @param type 泛型
-     * @return
-     * @param <T>
      */
     public static <T> T jsonStrToObject(String json, Type type) {
         return getGson().fromJson(json, type);
@@ -60,36 +58,41 @@ public class GsonUtil implements JsonSerializer<String>, JsonDeserializer<String
     }
 
     /**
+     * 字符串转JsonArray
+     *
+     * @param jsonObject json对象
+     * @param data 数据
+     * @return JsonObject
+     */
+    public static JsonArray toJsonArray(JsonObject jsonObject, String data){
+        return getGson().fromJson(jsonObject.get(data), JsonElement.class).getAsJsonArray();
+    }
+
+    /**
      * json字符串转list
      *
      * @param gsonString 字符串
      * @param cls 对象类型
-     * @return
-     * @param <T>
      */
     public static <T> List<T> gsonToList(String gsonString, Class<T> cls) {
         List<T> list = null;
-            //根据泛型返回解析指定的类型,TypeToken<List<T>>{}.getType()获取返回类型
-            list = getGson().fromJson(gsonString, new TypeToken<List<T>>() {
-            }.getType());
+        //根据泛型返回解析指定的类型,TypeToken<List<T>>{}.getType()获取返回类型
+        list = getGson().fromJson(gsonString, new TypeToken<List<T>>() {}.getType());
         return list;
     }
 
     /**
-     * @param json
-     * @param clazz
-     * @return
+     * json字符串转成list中有map的
+     *
+     * @param json 字符串
      */
     public static <T> List<T> jsonToArrayList(String json, Class<T> clazz) {
         GsonBuilder gb = new GsonBuilder();
         gb.registerTypeAdapter(String.class, new GsonUtil());
-        Type type = new TypeToken<ArrayList<JsonObject>>() {
-        }.getType();
+        Type type = new TypeToken<ArrayList<JsonObject>>() {}.getType();
         List<JsonObject> jsonObjects = gb.create().fromJson(json, type);
         List<T> arrayList = new ArrayList<>();
-        for (JsonObject jsonObject : jsonObjects) {
-            arrayList.add(new Gson().fromJson(jsonObject, clazz));
-        }
+        jsonObjects.forEach(jsonObject -> arrayList.add(new Gson().fromJson(jsonObject, clazz)));
         return arrayList;
     }
 

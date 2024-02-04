@@ -1,5 +1,6 @@
-package com.zero.utils;
+package com.zero.utils.redis;
 
+import com.zero.utils.redis.RedisPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -146,22 +146,46 @@
             <artifactId>easypoi-annotation</artifactId>
             <version>4.2.0</version>
         </dependency>
+        <!-- easyexcel 注解包 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>easyexcel</artifactId>
             <version>3.2.1</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>commons-lang</groupId>-->
-<!--            <artifactId>commons-lang</artifactId>-->
-<!--            <version>2.6</version>-->
-<!--        </dependency>-->
+        <!-- log4kj -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>${log4j.version}</version>
         </dependency>
+        <!-- 阿里云oss -->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.17.2</version>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <!--默认激活配置-->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!--当前环境-->
+                <profile.name>dev</profile.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <!--当前环境-->
+                <profile.name>test</profile.name>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <finalName>sonata-api</finalName>

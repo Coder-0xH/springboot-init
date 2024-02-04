@@ -1,4 +1,4 @@
-package com.zero.utils;
+package com.zero.utils.redis;
 
 import lombok.Getter;
 import lombok.Setter;
