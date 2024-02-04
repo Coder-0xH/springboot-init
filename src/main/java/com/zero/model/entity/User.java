@@ -85,31 +85,6 @@ public class User implements Serializable {
     private Date updateTime;
 
     /**
-     * 推广码
-     */
-    @TableField("referral_code")
-    private String referralCode;
-    /**
-     * 冻结金额
-     */
-    @TableField("frozen_balance")
-    private double frozenBalance;
-    /**
-     * 可提现余额
-     */
-    @TableField("withdraw_balance")
-    private double withdrawBalance;
-    /**
-     * 可提现余额
-     */
-    @TableField("promotion_link")
-    private String promotionLink;
-    /**
-     * 推荐人
-     */
-//    private User referrer;
-
-    /**
      * 是否删除
      */
     @TableLogic
