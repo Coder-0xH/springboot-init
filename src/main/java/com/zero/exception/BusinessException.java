@@ -5,8 +5,6 @@ import lombok.Getter;
 
 /**
  * 自定义异常类
- *
-
  */
 @Getter
 public class BusinessException extends RuntimeException {
@@ -15,6 +13,13 @@ public class BusinessException extends RuntimeException {
      * 错误码
      */
     private final int code;
+    /**
+     * 错误信息
+     */
+    private String msg;
+    public BusinessException(String msg) {
+        this(500, msg);
+    }
 
     public BusinessException(int code, String message) {
         super(message);

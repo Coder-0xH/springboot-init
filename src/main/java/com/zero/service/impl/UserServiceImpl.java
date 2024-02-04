@@ -77,12 +77,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             User user = new User();
             user.setUserAccount(userAccount);
             user.setUserPassword(encryptPassword);
-            // 生成邀请码
-            user.setReferralCode(UUidUtils.random());
-//            user.setPromotionLink(user.getId().toString());
-//            QueryWrapper<User> queryWrapper1 = new QueryWrapper<>();
-//            queryWrapper1.eq("referral_code",referralCode);
-//            long i = this.baseMapper.selectCount(queryWrapper);
             boolean saveResult = this.save(user);
             if (!saveResult) {
                 throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");

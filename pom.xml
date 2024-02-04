@@ -16,6 +16,7 @@
     <properties>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.83</fastjson.version>
+        <log4j.version>2.20.0</log4j.version>
     </properties>
     <dependencies>
         <dependency>
@@ -132,6 +133,33 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <!-- easypoi web包 -->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-web</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <!-- easypoi 注解包 -->
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-annotation</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>3.2.1</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>commons-lang</groupId>-->
+<!--            <artifactId>commons-lang</artifactId>-->
+<!--            <version>2.6</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
 

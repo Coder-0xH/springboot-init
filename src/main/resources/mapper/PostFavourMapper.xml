@@ -17,8 +17,7 @@
         createTime,updateTime
     </sql>
 
-    <select id="listFavourPostByPage"
-            resultType="com.zero.model.entity.Post">
+    <select id="listFavourPostByPage" resultType="com.zero.model.entity.Post">
         select p.*
         from post p
                  join (select postId from post_favour where userId = #{favourUserId}) pf
